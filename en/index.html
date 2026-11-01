@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://csv-henkan.format-portal.com/en/">
+    <link rel="alternate" hreflang="ja" href="https://csv-henkan.format-portal.com/">
+    <link rel="alternate" hreflang="en" href="https://csv-henkan.format-portal.com/en/">
+    <link rel="alternate" hreflang="x-default" href="https://csv-henkan.format-portal.com/">
+    <meta property="og:locale" content="en_US">
+    <title>CSV to Excel Converter — Free, No Signup, Browser-Based</title>
+    <meta name="description" content="Convert CSV to Excel and Excel to CSV instantly in your browser. Free, no signup, and your files never leave your device. Garbled text and encoding issues handled automatically.">
+    <meta name="google-site-verification" content="Z1vua0Vo7S6XuQMPogmaM0mN5b5TAKBMX3Vg7AgblTs" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WERRPRW455"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WERRPRW455');
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            color: white;
+        }
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: #666;
+        }
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9ff;
+            margin-bottom: 20px;
+        }
+        .upload-area:hover {
+            background: #eef0ff;
+            border-color: #764ba2;
+        }
+        .upload-area .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .upload-area p {
+            color: #666;
+            margin: 5px 0;
+        }
+        .options {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+            color: #555;
+        }
+        .options select, .options input {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            font-weight: 600;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0fff4;
+            border-radius: 8px;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .result a {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .feature .icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .feature h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .feature p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        .steps {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .steps h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .faq {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .faq h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .faq-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .faq-question {
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .faq-answer {
+            color: #666;
+            display: none;
+        }
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            opacity: 0.9;
+        }
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .tool-card {
+                padding: 20px;
+            }
+            .upload-area {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 CSV Converter</h1>
+            <p>Convert CSV to Excel and Excel to CSV right in your browser</p>
+            <div style="margin-top: 15px;">
+                <span class="badge">✅ No signup</span>
+                <span class="badge">✅ Free forever</span>
+                <span class="badge">✅ No data upload</span>
+                <a href="/?setlang=ja" class="badge">日本語</a>
+            </div>
+        </header>
+
+        <div class="tool-card">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('csv-to-excel')">CSV → Excel</div>
+                <div class="tab" onclick="switchTab('excel-to-csv')">Excel → CSV</div>
+            </div>
+
+            <div id="csv-to-excel" class="tab-content active">
+                <div class="upload-area" onclick="document.getElementById('csvFile').click()">
+                    <div class="icon">📄</div>
+                    <p><strong>Drop a CSV file</strong></p>
+                    <p>or click to select one</p>
+                    <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="handleCsvUpload(this)">
+                </div>
+
+                <div class="options">
+                    <label>
+                        Encoding:
+                        <select id="csvEncoding">
+                            <option value="auto">Auto-detect</option>
+                            <option value="UTF-8">UTF-8</option>
+                            <option value="Shift_JIS">Shift_JIS</option>
+                            <option value="EUC-JP">EUC-JP</option>
+                        </select>
+                    </label>
+                    <label>
+                        Header row:
+                        <input type="checkbox" id="csvHeader" checked>
+                        (treat the first row as a header)
+                    </label>
+                </div>
+
+                <button class="btn" onclick="convertCsvToExcel()">Download as Excel</button>
+
+                <div id="csvResult" class="result">
+                    <p>✅ Conversion complete!</p>
+                    <a id="csvDownloadLink" download="converted.xlsx">📥 Download Excel file</a>
+                </div>
+            </div>
+
+            <div id="excel-to-csv" class="tab-content">
+                <div class="upload-area" onclick="document.getElementById('excelFile').click()">
+                    <div class="icon">📊</div>
+                    <p><strong>Drop an Excel file</strong></p>
+                    <p>or click to select one (.xlsx, .xls)</p>
+                    <input type="file" id="excelFile" accept=".xlsx,.xls" style="display: none;" onchange="handleExcelUpload(this)">
+                </div>
+
+                <div class="options">
+                    <label>
+                        Output encoding:
+                        <select id="excelEncoding">
+                            <option value="UTF-8">UTF-8</option>
+                            <option value="Shift_JIS">Shift_JIS</option>
+                            <option value="EUC-JP">EUC-JP</option>
+                        </select>
+                    </label>
+                    <label>
+                        Include BOM:
+                        <input type="checkbox" id="excelBom" checked>
+                        (recommended when opening in Excel)
+                    </label>
+                </div>
+
+                <button class="btn" onclick="convertExcelToCsv()">Download as CSV</button>
+
+                <div id="excelResult" class="result">
+                    <p>✅ Conversion complete!</p>
+                    <a id="excelDownloadLink" download="converted.csv">📥 Download CSV file</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="icon">🔒</div>
+                <h3>Safe and private</h3>
+                <p>Files are processed in your browser and never sent to a server, so sensitive data stays safe.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">⚡</div>
+                <h3>Fast conversion</h3>
+                <p>Even large files convert in seconds. Nothing to install, ready the moment you open the page.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🆓</div>
+                <h3>Completely free</h3>
+                <p>No signup or login. Every feature is free and unlimited.</p>
+            </div>
+        </div>
+
+        <div class="steps">
+            <h2>Three simple steps</h2>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>
+                    <strong>Upload your file</strong><br>
+                    Drag and drop the CSV or Excel file you want to convert.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>
+                    <strong>Choose your options</strong><br>
+                    Adjust the encoding and header settings as needed.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>
+                    <strong>Download</strong><br>
+                    Download the converted file and you are done.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq">
+            <h2>FAQ</h2>
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Q. What if my CSV file shows garbled text?</div>
+                <div class="faq-answer">A. Try changing the encoding setting. If "Auto-detect" does not work, select Shift_JIS or UTF-8 explicitly.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Q. Which file formats are supported?</div>
+                <div class="faq-answer">A. CSV (.csv) and Excel (.xlsx, .xls).</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Q. Where are my files sent?</div>
+                <div class="faq-answer">A. Nowhere. Files are processed only inside your browser and are never transmitted to our servers, so your privacy stays fully protected.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Q. Can I convert large files?</div>
+                <div class="faq-answer">A. Yes, as long as they fit within your browser's memory. Typical business data converts without any trouble.</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 CSV Converter. All rights reserved.</p>
+            <p>
+                <a href="/en/privacy.html">Privacy Policy</a> |
+                <a href="/en/terms.html">Terms of Service</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function handleCsvUpload(input) {
+            if (input.files.length > 0) {
+                alert('Selected file: ' + input.files[0].name);
+            }
+        }
+
+        function handleExcelUpload(input) {
+            if (input.files.length > 0) {
+                alert('Selected file: ' + input.files[0].name);
+            }
+        }
+
+        function convertCsvToExcel() {
+            alert('Starting conversion...\n(demo only)');
+            document.getElementById('csvResult').classList.add('show');
+        }
+
+        function convertExcelToCsv() {
+            alert('Starting conversion...\n(demo only)');
+            document.getElementById('excelResult').classList.add('show');
+        }
+    </script>
+</body>
+</html>
